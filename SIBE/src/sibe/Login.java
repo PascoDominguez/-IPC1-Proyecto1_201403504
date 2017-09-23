@@ -22,7 +22,7 @@ public class Login extends JFrame {
     private Icon icoUsuario, icoPassword, icoFondo;
     private TextPrompt placeholder;
     private JButton btnLogin, btnSalir;
-
+    Transaccion miTransaccion = new Transaccion();
     //atributos
     private Datos misDatos;
 
@@ -134,25 +134,61 @@ public class Login extends JFrame {
             return;
         } else {
             if (misDatos.validarClientes(this.txtUsuario.getText(), this.txtPassword.getText())) {
-                Transaccion miTransaccion = new Transaccion();
+                
                 miTransaccion.setDatos(misDatos);
-                miTransaccion.show();
+                miTransaccion.init_component();
+                mostrarDAtos();
+                tipoEmpresa();
                 this.txtPassword.setText("");
                 this.txtUsuario.setText("");
                 return;
             }
         }
-
         // si todo esta bien se abre la ventana del Admin
         Admin miAdmin = new Admin();
         miAdmin.setDatos(misDatos);
         miAdmin.show();
         this.txtPassword.setText("");
         this.txtUsuario.setText("");
+
     }
 
     private void btnSalir(ActionEvent evt) {
         System.exit(0);
     }
 
+    private void mostrarDAtos() {
+        String registro[] = new String[3];
+        for (int i = 0; i < misDatos.numeroCliente(); i++) {
+            registro[0] = "" + misDatos.getClientes()[misDatos.posicionCliente()].getUsuario();
+            registro[1] = "" + misDatos.getClientes()[misDatos.posicionCliente()].getSaldoInicial();
+            registro[2] = "" + misDatos.getClientes()[misDatos.posicionCliente()].getMontoMaximo();
+            System.out.println("usuario: " + registro[0]);
+            System.out.println("saldo inicial: " + registro[1]);
+            System.out.println("monto maximo: " + registro[2]);
+            break;
+        }
+        System.out.println("******************************");
+        System.out.println("*********   CONSULTA    **********");
+    }
+
+    private void tipoEmpresa() {
+        String registro[] = new String[1];
+        for (int i = 0; i < misDatos.numeroCliente(); i++) {
+            registro[0] = "" + misDatos.getClientes()[misDatos.posicionCliente()].getEmpresa();
+            if (registro[0].equals("1")) {
+                miTransaccion.getContentPane().setBackground(Color.GRAY);
+                String bancoPro = "PRO*PISTO";
+                Transaccion.lblPropisto.setText(bancoPro);
+            } else {
+                if (registro[0].equals("0")) {
+                    miTransaccion.getContentPane().setBackground(Color.GREEN);
+//                    String bancoPro = "CASH-MONEY";
+//                Transaccion.lblCashMoney.setText(bancoPro);
+                }
+            }
+
+            break;
+        }
+    }
 }

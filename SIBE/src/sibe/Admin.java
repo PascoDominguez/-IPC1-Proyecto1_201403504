@@ -203,7 +203,7 @@ public class Admin extends JFrame {
     //                        eventos de los botones                          //
     //************************************************************************//
     public void btnSalir(ActionEvent evt) {
-        dispose();
+        this.setVisible(false);
     }
 
     public void btnBuscar(ActionEvent evt) {
@@ -217,16 +217,7 @@ public class Admin extends JFrame {
             JOptionPane.showMessageDialog(this, "Debe llenar los campos de texto");
 
         }
-        if (this.cmbEmpresa.getSelectedIndex() == -1) {
-            JOptionPane.showMessageDialog(this, "Debe seleccionar el tipo de empresa");
-        }
-        //validamos si el cliente existe o no
-        int pos = misDatos.posicionUsuario(this.txtUsuario.getText(), this.txtPassword.getText());
-        if (pos != -1) {
-            JOptionPane.showMessageDialog(this, "El usuario o contraseña ya existe");
-            this.txtUsuario.setText("");
-            this.txtPassword.setText("");
-        }
+ 
         
         Cliente miClinete = new Cliente(
                 this.txtNombre.getText(),
